@@ -38,12 +38,15 @@ while run:
         print(player)
         draw()
         print("   5 - SHOP")
+        print("   8 - INVENTORY")
         print("   9 - SAVE GAME")
         print("   0 - MAIN MENU")
         draw()
         choice = input("# ")
         if choice == "5":
             shop()
+        elif choice == "8":
+            inventory()
         elif choice == "0":
             menu = True
             play = False
