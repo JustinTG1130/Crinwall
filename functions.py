@@ -40,3 +40,42 @@ def inventory():
             elif choice == "0":
                 inventory = False
 
+def map():
+                # = 0       x = 1       x = 2       x = 3       x = 4
+    map = [["warehouse",   "street",    "house",   "temple",   "house"],    # y = 0
+           [    "house",   "street", "townhall",   "street",  "jewler"],    # y = 1
+           [    "house",   "street",    "tower",   "street",   "house"],    # y = 2
+           [      "inn",   "street",   "street",   "street",   "house"],    # y = 3
+           [     "shop",   "street",   "stables",   "house",   "house"]]    # y = 4
+    
+    y_len = len(map) -1
+    x_len = len(map[0]) -1
+    
+    tile ={
+        "house": {
+            "t": "HOUSE",
+            "e": True},
+        "street": {
+            "t": "STREET",
+            "e": True},
+        "inn": {
+            "t": "INN",
+            "e": False},
+        "tower": {
+            "t": "TOWER",
+            "e": False},
+        "townhall": {
+            "t": "TOWNHALL",
+            "e": False},
+        "temple": {
+            "t": "TEMPLE OF NILLAMOR",
+            "e": False},
+        "jewler": {
+            "t": "JEWLER",
+            "e": False},
+        "stables": {
+            "t": "STABLES",
+            "e": True},
+        "shop": {
+            "t": "SHOP",
+            "e": False}}

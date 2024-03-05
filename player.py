@@ -1,6 +1,7 @@
 class Player:
     name = "Oskar"
     def __init__(self, name, HP, ATKMIN, ATKMAX, MANA):
+        # Stats
         self.name = name
         self.HP = HP
         self.HPMAX = self.HP
@@ -8,10 +9,16 @@ class Player:
         self.ATKMAX = ATKMAX
         self.MANA = MANA
         self.MANAMAX =  self.MANA
+
+        # Inventory
         self.gold = 9000
         self.band = 2
         self.pot = 0
         self.draught = 0
+
+        #Coords
+        self.x = 1
+        self.y = 4
 
     def __repr__(self):
         string1 = f"   {self.name}:\n   HP: {self.HP}/{self.HPMAX}\n"
