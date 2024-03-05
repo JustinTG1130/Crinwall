@@ -1,4 +1,5 @@
 from functions import *
+from shop import *
 
 run = True
 menu = True
@@ -9,6 +10,7 @@ play = False
 while run:
 
     while menu:
+        clear()
         main_menu()
 
         choice = input("# ")
@@ -18,6 +20,8 @@ while run:
             name = input("Name your character: ")
             if len(name) < 1:
                 player.name = Player.name
+            else:
+                player.name = name
             menu = False
             play = True
         elif choice == "2":
@@ -33,9 +37,13 @@ while run:
         draw()
         print(player)
         draw()
+        print("   5 - SHOP")
+        print("   9 - SAVE GAME")
         print("   0 - MAIN MENU")
         draw()
         choice = input("# ")
-        if choice == "0":
+        if choice == "5":
+            shop()
+        elif choice == "0":
             menu = True
             play = False

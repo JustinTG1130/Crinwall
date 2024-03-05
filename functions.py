@@ -8,7 +8,7 @@ def clear():
     os.system("cls")
 
 def main_menu():
-
+    clear
     draw()
     print(" | 1 - NEW GAME         |")
     print(" | 2 - LOAD GAME        |")
