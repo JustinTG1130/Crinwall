@@ -1,3 +1,4 @@
+import random
 class Player:
     name = "Oskar"
     def __init__(self, name, HP, ATKMIN, ATKMAX, MANA):
@@ -8,10 +9,10 @@ class Player:
         self.ATKMIN = ATKMIN
         self.ATKMAX = ATKMAX
         self.MANA = MANA
-        self.MANAMAX =  self.MANA
+        self.MANAMAX = self.MANA
 
         # Inventory
-        self.gold = 9000
+        self.gold = 0
         self.band = 2
         self.pot = 0
         self.draught = 0
@@ -19,12 +20,15 @@ class Player:
         #Coords
         self.x = 1
         self.y = 4
+        self.idle = True
 
+    # Shows player name and stats
     def __repr__(self):
         string1 = f"   {self.name}:\n   HP: {self.HP}/{self.HPMAX}\n"
-        string2 = f"   ATK: {self.ATKMIN} -> {self.ATKMAX}\n   MANA: {self.MANA}/{self.MANAMAX}"
+        string2 = f"   ATK: {self.ATKMIN} -> {self.ATKMAX}\n   MANA: {self.MANA}/{self.MANAMAX} \n   GOLD: {self.gold}"
         return string1 + string2
     
+    # Restore health
     def restore_health(self, item):
         if item == "band":
             if player.band > 0:
@@ -52,10 +56,15 @@ class Player:
         if player.HP > player.HPMAX:
             player.HP = player.HPMAX
         input("# ")
+    
+    # Player Attack
+    def attack(self, target):
+        damage = random.randint(self.ATKMIN, self.ATKMAX + 1)
+        target.HP -= damage
+        target.HP = max(target.HP, 0)
+        print(f"You dealt {damage} damage to {target.name}!")
+
         
-        
-
-
-
+# player init
 player = Player(Player.name, 100, 4, 8, 25)
     

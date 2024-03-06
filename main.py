@@ -1,10 +1,13 @@
 from functions import *
 from shop import *
+import random
 
 run = True
 menu = True
 info = False
 play = False
+time = "AM"
+clock = 6
 
 # MAP 
         #     x = 0       x = 1       x = 2       x = 3      x = 4
@@ -41,7 +44,7 @@ tile ={
         "t": "TOWNHALL",
         "e": False},
     "temple": {
-        "t": "TEMPLE OF NILLAMOR",
+        "t": "TEMPLE",
         "e": False},
     "jewler": {
         "t": "JEWLER",
@@ -81,11 +84,21 @@ while run:
         elif choice == "4":
             quit()
         
-
     while play:
         clear()
-        draw()
 
+        # Battle Checker
+        if not player.idle:
+            if tile[map[player.y][player.x]]["e"]:
+                if clock < 18: # Less of a chance to encounter an enemy before 6pm
+                    if random.randint(1,100) <= 50: # default 15
+                        fight()
+                if clock >= 18: # Much higher of a chance to encounter an enemy after 6pm
+                    if random.randint(1,100) <= 50: # default 35
+                        fight()
+
+        draw()
+        print(f"   TIME: {clock}{time}")
         print("   LOCATION: " + tile[map[player.y][player.x]]["t"])
 
         draw()
@@ -110,37 +123,52 @@ while run:
         draw()
 
         # Number options
-        print("   5 - SHOP")
-        print("   8 - INVENTORY")
+        print("   1 - INVENTORY")
+        if map[player.y][player.x] == "shop" or map[player.y][player.x] == "townhall" or map[player.y][player.x] == "tower" or map[player.y] [player.x] == "temple" or map[player.y][player.x] == "inn" or map[player.y][player.x] == "jewler" or map[player.y][player.x] == "warehouse":
+            print("   2 - ENTER")
         print("   9 - SAVE GAME")
         print("   0 - MAIN MENU")
 
         draw()
         dest = input("# ")
 
+        # Logic for movement
         if dest == "w":
             if player.y > 0:
                 player.y -= 1
+                player.idle = False
         
         elif dest == "a":
             if player.x > 0:
                 player.x -= 1
+                player.idle = False
 
         elif dest == "s":
             if player.y < y_len:
                 player.y += 1
+                player.idle = False
 
         elif dest == "d":
             if player.x < x_len:
                 player.x += 1
+                player.idle = False
         
         # Logic for destinations
-        elif dest == "5":
-            shop()
-
-        elif dest == "8":
+        elif dest == "1":
             inventory()
-
+        elif dest == "2":
+            if map[player.y][player.x] == "shop":
+                shop()
+        elif dest == "8":
+            shop()
         elif dest == "0":
             menu = True
             play = False
+
+    # CLOCK AND TIME
+        clock += 1
+        if clock >= 12:
+            time = "PM"
+        if clock > 24:
+            clock = 0
+            time = "AM"
