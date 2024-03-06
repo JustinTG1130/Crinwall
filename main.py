@@ -78,7 +78,7 @@ while run:
             menu = False
             play = True
         elif choice == "2":
-            pass
+            load()
         elif choice == "3":
             pass
         elif choice == "4":
@@ -159,9 +159,10 @@ while run:
         elif dest == "2":
             if map[player.y][player.x] == "shop":
                 shop()
-        elif dest == "8":
-            shop()
+        elif dest == "9":
+            save()
         elif dest == "0":
+            save()
             menu = True
             play = False
 

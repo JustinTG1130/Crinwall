@@ -8,6 +8,46 @@ def draw_long():
 def clear():
     os.system("cls")
 
+def save():
+    list = [
+        str(player.name),
+        str(player.HP),
+        str(player.ATKMIN),
+        str(player.ATKMAX),
+        str(player.band),
+        str(player.pot),
+        str(player.draught),
+        str(player.gold),
+        str(player.y),
+        str(player.x)
+    ]
+
+    with open("save.txt", 'w') as save:
+        for item in list:
+            save.write(item + "\n")
+    print("Game Saved!")
+
+def load():
+    try:
+        with open("save.txt") as save:
+            if len(save) == 10:
+                player.name = save[0][:-1]
+                player.HP = int(save[1][:-1])
+                player.ATKMIN = int(save[2][:-1])
+                player.ATKMAX = int(save[3][:-1])
+                player.band = int(save[4][:-1])
+                player.pot = int(save[5][:-1])
+                player.draught = int(save[6][:-1])
+                player.gold = int(save[7][:-1])
+                player.y = int(save[8][:-1])
+                player.x = int(save[9][:-1])
+            else:
+                print("Corrupt save file!")
+                input("# ")
+    except OSError:
+        print("No loadable save file!")
+        input("# ")
+
 def main_menu():
     clear
     draw()
@@ -95,6 +135,8 @@ def fight():
                 enemy.attack(player)
             else:
                 print("You got away safely!")
+                input("# ")
+                clear()
             fight = False
 
         if enemy.HP == 0:
