@@ -26,8 +26,10 @@ def save():
         for item in list:
             save.write(item + "\n")
     print("Game Saved!")
+    input("# ")
 
 def load():
+    player.idle = True
     try:
         with open("save.txt") as save:
             if len(save) == 10:
@@ -146,9 +148,17 @@ def fight():
             print(f"{enemy.gold} gold was found on the {enemy.name}")
             input("# ")
         if player.HP == 0:
+            fight = False
             print(f"You were defeated by {enemy.name}...")
             input("# ")
             clear()
             print("GAME OVER")
-            input("Press enter to exit...")
-            quit()
+            input("# ")
+            clear()
+            draw_long()
+            print("Would you like to load last save?")
+            print("1 - Yes")
+            print("2 - No")
+            draw_long()
+            
+            

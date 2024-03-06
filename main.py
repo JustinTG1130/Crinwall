@@ -96,6 +96,10 @@ while run:
                 if clock >= 18: # Much higher of a chance to encounter an enemy after 6pm
                     if random.randint(1,100) <= 50: # default 35
                         fight()
+        if player.HP == 0:
+            play = False
+            menu = True
+            continue
 
         draw()
         print(f"   TIME: {clock}{time}")
@@ -160,11 +164,14 @@ while run:
             if map[player.y][player.x] == "shop":
                 shop()
         elif dest == "9":
+            player.idle = True
             save()
+            continue
         elif dest == "0":
             save()
             menu = True
             play = False
+            continue
 
     # CLOCK AND TIME
         clock += 1
