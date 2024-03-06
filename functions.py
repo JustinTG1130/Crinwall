@@ -29,9 +29,9 @@ def save():
     input("# ")
 
 def load():
-    player.idle = True
     try:
         with open("save.txt") as save:
+            save = save.readlines()
             if len(save) == 10:
                 player.name = save[0][:-1]
                 player.HP = int(save[1][:-1])
@@ -76,10 +76,16 @@ def inventory():
             choice = input("# ")
             if choice == "1":
                 player.restore_health("band")
+                player.idle = True
+
             elif choice == "2":
                 player.restore_health("pot")
+                player.idle = True
+
             elif choice == "3":
                 player.restore_health("draught")
+                player.idle = True
+
             elif choice == "0":
                 inventory = False
 
@@ -88,6 +94,8 @@ def fight():
     e_list = [giant_rat, drunkard, thief, syndicate_thug]
     
     enemy = random.choice(e_list)
+    if enemy.HP < enemy.HPMAX:
+        enemy.HP = enemy.HPMAX
 
     while fight:
 
@@ -117,7 +125,8 @@ def fight():
         action = input("# ")
         if action == "1":
             player.attack(enemy)
-            enemy.attack(player)
+            if enemy.HP > 0:
+                enemy.attack(player)
             input("# ")
 
         elif action == "2":
@@ -140,6 +149,7 @@ def fight():
                 input("# ")
                 clear()
             fight = False
+            continue
 
         if enemy.HP == 0:
             fight = False
@@ -153,12 +163,6 @@ def fight():
             input("# ")
             clear()
             print("GAME OVER")
-            input("# ")
-            clear()
-            draw_long()
-            print("Would you like to load last save?")
-            print("1 - Yes")
-            print("2 - No")
-            draw_long()
-            
+            input("Press enter to return to menu...")
+    clear()
             

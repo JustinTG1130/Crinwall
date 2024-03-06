@@ -67,7 +67,7 @@ while run:
         main_menu()
 
         choice = input("# ")
-
+        # Main menu logic
         if choice == "1":
             clear()
             name = input("Name your character: ")
@@ -79,6 +79,9 @@ while run:
             play = True
         elif choice == "2":
             load()
+            menu = False
+            play = True
+            player.idle = True
         elif choice == "3":
             pass
         elif choice == "4":

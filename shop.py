@@ -38,8 +38,9 @@ def shop():
         elif choice == "2":
             if player.gold >= 25:
                 if player.HPMAX <= 200:
-                    player.gold -= 30
+                    player.gold -= 25
                     player.HPMAX += 10
+
                     print("Your maximum hp increased by 10")
                     print(f"HP: {player.HP} / {player.HPMAX - 10} -> {player.HPMAX}")
                 else:
@@ -60,8 +61,8 @@ def shop():
 
         # Potion of healing
         elif choice == "4":
-            if player.gold >= 10:
-                player.gold -= 10
+            if player.gold >= 25:
+                player.gold -= 25
                 player.pot += 1
                 print("You bought 1 health potion")
             else:
@@ -70,8 +71,8 @@ def shop():
 
         # Draught of healing
         elif choice == "5":
-            if player.gold >= 40:
-                player.gold -= 10
+            if player.gold >= 55:
+                player.gold -= 55
                 player.draught += 1
                 print("You bought 1 draught of healing")
             else:
