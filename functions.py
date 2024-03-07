@@ -28,7 +28,7 @@ def save():
     print("Game Saved!")
     input("# ")
 
-def load():
+def load(menu, play):
     try:
         with open("save.txt") as save:
             save = save.readlines()
@@ -43,6 +43,9 @@ def load():
                 player.gold = int(save[7][:-1])
                 player.y = int(save[8][:-1])
                 player.x = int(save[9][:-1])
+                menu = False
+                play = True
+                return  menu, play
             else:
                 print("Corrupt save file!")
                 input("# ")
@@ -53,12 +56,37 @@ def load():
 def main_menu():
     clear
     draw()
+    print(" |  <<|| CRINWALL ||>>  |")
+    draw()
     print(" | 1 - NEW GAME         |")
     print(" | 2 - LOAD GAME        |")
     print(" | 3 - INFO             |")
     print(" | 4 - QUIT GAME        |")
     draw()
+
+def info():
+    clear()
+    
+    info_string = """
+    <X>------------------------------------------------------------------------------<X>
+     | This game was based on a D&D adventure I created for my group.                 |
+     | It's based in a medieval fantasy setting.                                      |
+     | Set in the city of Crinwall, you cannot go outside the walls.                  |
+     |                                                                                |
+     | Mechanics:                                                                     |
+     | 1 - Streets and houses can spawn enemies, which will have a much higher        |
+     | chance of spawning at time after 18:00.                                        |
+     | 2 - Complete shop system, you can upgrade your weapon, health, and you can buy |
+     | different levels of healing.                                                   |
+     | 3 - AWSD + Enter is how you move throughout the map.                           |
+     | 4 - You can sleep in the inn for 10 Gold to heal up and reset the clock.       | 
+     |                                                                                |
+     | PRESS ENTER TO GO BACK TO MENU                                                 |
+    <X>------------------------------------------------------------------------------<X> """
+    return info_string
+# Game play functions
 def inventory():
+        
         inventory = True
         while inventory:
             clear()
@@ -88,6 +116,25 @@ def inventory():
 
             elif choice == "0":
                 inventory = False
+
+def inn():
+    pass
+
+def town_hall():
+    pass
+
+def tower():
+    pass
+
+def jewler():
+    pass
+
+def warehouse():
+    pass
+
+def temple():
+    pass
+
 
 def fight():
     fight = True
@@ -164,5 +211,6 @@ def fight():
             clear()
             print("GAME OVER")
             input("Press enter to return to menu...")
+            player.idle = True
     clear()
-            
+           

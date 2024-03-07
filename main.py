@@ -4,9 +4,7 @@ import random
 
 run = True
 menu = True
-info = False
 play = False
-time = "AM"
 clock = 6
 
 # MAP 
@@ -78,12 +76,10 @@ while run:
             menu = False
             play = True
         elif choice == "2":
-            load()
-            menu = False
-            play = True
-            player.idle = True
+            menu, play = load(menu, play)
         elif choice == "3":
-            pass
+            print(info())
+            input("# ")
         elif choice == "4":
             quit()
         
@@ -105,7 +101,7 @@ while run:
             continue
 
         draw()
-        print(f"   TIME: {clock}{time}")
+        print(f"   TIME: {clock}:00")
         print("   LOCATION: " + tile[map[player.y][player.x]]["t"])
 
         draw()
@@ -163,9 +159,32 @@ while run:
         # Logic for destinations
         elif dest == "1":
             inventory()
+
+            # Interactable buildings
         elif dest == "2":
+
             if map[player.y][player.x] == "shop":
                 shop()
+
+            if map[player.y][player.x] == "inn":
+                inn()
+
+            if map[player.y][player.x] == "townhall":
+                town_hall()
+
+            if map[player.y][player.x] == "tower":
+                tower()
+
+            if map[player.y][player.x] == "jewler":
+                jewler()
+
+            if map[player.y][player.x] == "warehouse":
+                warehouse()
+
+            if map[player.y][player.x] == "temple":
+                temple()
+
+            
         elif dest == "9":
             player.idle = True
             save()
@@ -178,8 +197,5 @@ while run:
 
     # CLOCK AND TIME
         clock += 1
-        if clock >= 12:
-            time = "PM"
         if clock > 24:
-            clock = 0
-            time = "AM"
+            clock = 1
