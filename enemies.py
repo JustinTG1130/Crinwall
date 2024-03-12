@@ -16,6 +16,6 @@ class Enemy:
 
 # Enemy init
 giant_rat = Enemy("Giant Rat", 20, 3, 6, 10)
-drunkard = Enemy("Drunkark", 30, 4, 8, 15)
+drunkard = Enemy("Drunkard", 30, 4, 8, 15)
 thief = Enemy("Thief", 40, 7, 14, 20)
 syndicate_thug = Enemy("Syndicate Thug", 60, 10, 18, 30)

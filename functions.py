@@ -1,13 +1,16 @@
 import os, random
 from player import *
 from enemies import *
+clock = 6
 def draw():
     print("<X>--------------------<X>")
 def draw_long():
     print("<X>----------------------------------------<X>")
+def draw_ex_long():
+    print("<X>----------------------------<X>-----------------------------<X>")
 def clear():
     os.system("cls")
-
+from story import *
 def save():
     list = [
         str(player.name),
@@ -19,7 +22,8 @@ def save():
         str(player.draught),
         str(player.gold),
         str(player.y),
-        str(player.x)
+        str(player.x),
+        str(player.story_progress)
     ]
 
     with open("save.txt", 'w') as save:
@@ -43,15 +47,22 @@ def load(menu, play):
                 player.gold = int(save[7][:-1])
                 player.y = int(save[8][:-1])
                 player.x = int(save[9][:-1])
+                player.story_progress = int(save[10][:-1])
                 menu = False
                 play = True
                 return  menu, play
             else:
                 print("Corrupt save file!")
                 input("# ")
+                menu = True
+                play = False
+                return menu, play
     except OSError:
         print("No loadable save file!")
         input("# ")
+        menu = True
+        play = False
+        return menu, play
 
 def main_menu():
     clear
@@ -118,15 +129,91 @@ def inventory():
                 inventory = False
 
 def inn():
-    pass
+
+    inn = True
+    while inn:
+        clear()
+        draw()
+        print("   THE DRUNKEN JESTER")
+        draw()
+        print(player)
+        draw()
+
+        print("   1 - INNKEEPER")
+        if player.story_progress == 1:
+                print("   2 - TRISTEN")
+        if player.room:
+            print("   4 - ROOM")
+        print("   0 - LEAVE")
+
+        choice = input("# ")
+
+        # INNKEEPER
+        if choice == "1":
+            innkeep = True
+            while innkeep:
+                clear()
+                draw()
+                print("   INNKEEPER")
+                draw()
+                print(player)
+                draw()
+                print("   1 - TALK")
+                if not player.room:
+                    print("   2 - RENT ROOM (2GP)")
+                print("   0 - LEAVE")
+
+                choice = input("# ")
+                if choice == "1":
+                    innkeeper()
+                elif choice == "2":
+                    player.room = True
+                    player.gold -= 2
+                    print("You purchased a room")
+                    input("# ")
+                if choice == "0":
+                    innkeep = False
+        
+        # PATRONS
+        elif choice == "2":
+            tristen()
+
+        # ROOM
+        elif choice == "4":
+            if not player.room:
+                print("   You don't have a room,")
+                print("   see the innkeeper.")
+                input("# ")
+            else:
+                room = True
+                while room:
+                    clear()
+                    draw()
+                    print("   Do you want to sleep?")
+                    print("   1 - Yes")
+                    print("   2 - No")
+                    choice = input("# ")
+                    if choice == "1":
+                        player.HP = player.HPMAX
+                        player.MANA = player.MANAMAX
+                        clock = 6
+                        print("   You wake up feeling rested.")
+                        input("# ")
+                        room = False
+                    elif choice == "2":
+                        room = False
+
+        # LEAVE
+        elif choice == "0":
+            clear()
+            print("   You leave the inn")
+            inn = False
+            input("# ")
 
 def town_hall():
     pass
 
 def tower():
-    pass
-
-def jewler():
     pass
 
 def warehouse():
@@ -136,13 +223,21 @@ def temple():
     pass
 
 
-def fight():
+def fight(boss):
     fight = True
-    e_list = [giant_rat, drunkard, thief, syndicate_thug]
+    e_list = [giant_rat, drunkard, thief]
     
-    enemy = random.choice(e_list)
-    if enemy.HP < enemy.HPMAX:
-        enemy.HP = enemy.HPMAX
+    if boss == "thug":
+        enemy = syndicate_thug
+        if enemy.HP < enemy.HPMAX:
+            enemy.HP = enemy.HPMAX
+    elif boss == "boss":
+        pass
+    else:
+        enemy = random.choice(e_list)
+        if enemy.HP < enemy.HPMAX:
+            enemy.HP = enemy.HPMAX
+
 
     while fight:
 
@@ -153,6 +248,7 @@ def fight():
         draw()
         print(f"   {enemy.name}'s HP: {enemy.HP}/{enemy.HPMAX}")
         print(f"   {player.name}'s HP: {player.HP}/{player.HPMAX}")
+        print(f"   MANA: {player.MANA}/{player.MANAMAX}")
         print(f"   BANDAGES: {player.band}")
         print(f"   POTIONS: {player.pot}")
         print(f"   DRAUGHTS: {player.draught}")
@@ -160,13 +256,14 @@ def fight():
 
         # Actions
         print("   1 - ATTACK")
+        print("   2 - ARCANE BLAST")
         if player.band > 0:
-            print("   2 - USE BANDAGE")
+            print("   3 - USE BANDAGE")
         if player.pot > 0:
-            print("   3 - USE POTION")
+            print("   4 - USE POTION")
         if player.draught > 0:
-            print("   4 - USE DRAUGHT")
-        print("   5 - FLEE (30% CHANCE TO BE HIT)")
+            print("   5 - USE DRAUGHT")
+        print("   6 - FLEE (30% CHANCE TO BE HIT)")
         draw_long()
 
         action = input("# ")
@@ -177,18 +274,24 @@ def fight():
             input("# ")
 
         elif action == "2":
+            player.cast(enemy)
+            if enemy.HP > 0:
+                enemy.attack(player)
+            input("# ")
+
+        elif action == "3":
             player.restore_health("band")
             enemy.attack(player)
 
-        elif action == "3":
+        elif action == "4":
             player.restore_health("pot")
             enemy.attack(player)
 
-        elif action == "4":
+        elif action == "5":
             player.restore_health("draught")
             enemy.attack(player)
 
-        elif action == "5":
+        elif action == "6":
             if random.randint(1, 100) < 30:
                 enemy.attack(player)
             else:
@@ -213,4 +316,25 @@ def fight():
             input("Press enter to return to menu...")
             player.idle = True
     clear()
-           
+
+def jewler():
+    if player.story_progress != 2:
+        clear()
+        print("   It's locked!")
+    else:
+        clear()
+        tristen()
+        fight("thug")
+        clear()
+        draw_ex_long()
+        print("   Is he dead?")
+        print("   You just saved my life. Here, take this!")
+        draw_ex_long()
+        player.gold += 100
+        print("Tristen hands you a coinpurse with 100 gold in it")
+        input("# ")
+        clear()
+        print("Thank you for playing! It's not as much as I had planned. ")
+        print("But after the second week of programming the game, I realized I bit off more than I could chew.")
+        input("# ")
+        clear()

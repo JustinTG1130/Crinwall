@@ -5,7 +5,6 @@ import random
 run = True
 menu = True
 play = False
-clock = 6
 
 # MAP 
         #     x = 0       x = 1       x = 2       x = 3      x = 4
@@ -73,6 +72,8 @@ while run:
                 player.name = Player.name
             else:
                 player.name = name
+            clear()
+            intro()
             menu = False
             play = True
         elif choice == "2":
@@ -84,22 +85,21 @@ while run:
             quit()
         
     while play:
-        clear()
 
         # Battle Checker
         if not player.idle:
             if tile[map[player.y][player.x]]["e"]:
                 if clock < 18: # Less of a chance to encounter an enemy before 6pm
-                    if random.randint(1,100) <= 50: # default 15
-                        fight()
+                    if random.randint(1,100) <= 15: # default 15
+                        fight("")
                 if clock >= 18: # Much higher of a chance to encounter an enemy after 6pm
-                    if random.randint(1,100) <= 50: # default 35
-                        fight()
+                    if random.randint(1,100) <= 35: # default 35
+                        fight("")
         if player.HP == 0:
             play = False
             menu = True
             continue
-
+        clear()
         draw()
         print(f"   TIME: {clock}:00")
         print("   LOCATION: " + tile[map[player.y][player.x]]["t"])
@@ -115,13 +115,13 @@ while run:
         print(f"   COORDS X: {player.x} | Y: {player.y}")
         # Checks to see if player is at the edge of the map, and if so, it gives them the option to move.
         if player.y > 0: 
-            print("   w - NORTH")
+            print("   w - NORTH: -Y")
         if player.x > 0:
-            print("   a - WEST")
+            print("   a - WEST: -X")
         if player.y < y_len:
-            print("   s - SOUTH")
+            print("   s - SOUTH: +Y")
         if player.x < x_len:
-            print("   d - EAST")
+            print("   d - EAST: +X")
 
         draw()
 

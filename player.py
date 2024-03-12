@@ -12,7 +12,7 @@ class Player:
         self.MANAMAX = self.MANA
 
         # Inventory
-        self.gold = 0
+        self.gold = 5
         self.band = 2
         self.pot = 0
         self.draught = 0
@@ -21,6 +21,10 @@ class Player:
         self.x = 1
         self.y = 4
         self.idle = True
+
+        # Story
+        self.room = False
+        self.story_progress = 0
 
     # Shows player name and stats
     def __repr__(self):
@@ -63,8 +67,17 @@ class Player:
         target.HP -= damage
         target.HP = max(target.HP, 0)
         print(f"You dealt {damage} damage to {target.name}!")
+    
+    def cast(self, target):
+        if self.MANA > 0:
+            damage = random.randint(self.ATKMIN * 2, (self.ATKMAX + 1) * 2)
+            self.MANA -= self.MANAMAX / 2
+            target.HP -= damage
+            target.HP = max(target.HP, 0)
+            print(f"You dealt {damage} damage to {target.name}!")
+        else:
+            print("Not enough mana!")
 
         
 # player init
 player = Player(Player.name, 100, 4, 8, 25)
-    
